@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather App </title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="card">
+    <div class="search">
+      <input type="text" placeholder="enter city name" 
+      spellcheck="false">
+      <button> <img src="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEASABIAAD/4gHYSUNDX1BST0ZJTEUAAQEAAAHIAAAAAAQwAABtbnRyUkdCIFhZWiAH4AABAAEAAAAAAABhY3NwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAA9tYAAQAAAADTLQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAlkZXNjAAAA8AAAACRyWFlaAAABFAAAABRnWFlaAAABKAAAABRiWFlaAAABPAAAABR3dHB0AAABUAAAABRyVFJDAAABZAAAAChnVFJDAAABZAAAAChiVFJDAAABZAAAAChjcHJ0AAABjAAAADxtbHVjAAAAAAAAAAEAAAAMZW5VUwAAAAgAAAAcAHMAUgBHAEJYWVogAAAAAAAAb6IAADj1AAADkFhZWiAAAAAAAABimQAAt4UAABjaWFlaIAAAAAAAACSgAAAPhAAAts9YWVogAAAAAAAA9tYAAQAAAADTLXBhcmEAAAAAAAQAAAACZmYAAPKnAAANWQAAE9AAAApbAAAAAAAAAABtbHVjAAAAAAAAAAEAAAAMZW5VUwAAACAAAAAcAEcAbwBvAGcAbABlACAASQBuAGMALgAgADIAMAAxADb/2wBDAAMCAgMCAgMDAwMEAwMEBQgFBQQEBQoHBwYIDAoMDAsKCwsNDhIQDQ4RDgsLEBYQERMUFRUVDA8XGBYUGBIUFRT/2wBDAQMEBAUEBQkFBQkUDQsNFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBQUFBT/wAARCAAZABkDASIAAhEBAxEB/8QAGwABAAEFAQAAAAAAAAAAAAAACAcAAwQFBgn/xAAtEAABAwMDAwMBCQAAAAAAAAABAgMEBQYHABEhCBMxCRJBIhUZMjhWcpW00//EABQBAQAAAAAAAAAAAAAAAAAAAAD/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCZX13t6g+UrvpdMu+q2HgK0aiuiuvW+72Z1yTW9u8O7z7WU7j4IIUn6SSSjdVX0wbStKGuq4gva7sbXvHHci1VmquPsvODwJDZ/GhXggEeeQocG/6XFQYoOF7nxtOUGLwsq5p8GsRHOHSpbpUh4j5SrZSQr57Z0zdAeOjTqBr+ZLWuS3L8hNU3J9jVE0a4o7AAbeWN+1JQBwEuBKvHBKFEbJIGkPoZdH1QYyL1d9T+RKEoO2jKn0uhxZbPLMuTEjdt9aFDhQBAO48h0H50zdAZs89HEi9sit5SxdekvFmVEMiPIqkRkPxKo0AAlEtg8L2CUj3HfhI3Sr2p24Sq9OHVTluGu3ciZzodCtF8ducLKpZbnTWjwpBdWhHb9w3B9pI55Socaamq0HktTKlk30kco/Z1STLvjAFwTCpt9tP1MLPlSfhqSlI5QSEPJTuNiN0MP7zXp2/XK/4yV/nrL9ST8m1/fsi/2WtQVoP/2Q==" ></button>
+    </div>
+
+
+<div class="weather"> 
+<img src="https://www.freeiconspng.com/thumbs/weather-icon-png/weather-icon-png-8.png" class="weather-icon">
+<h1 class="temp">22°c</h1>
+<h2 class="city">New York</h2>
+<div class="details">
+  <div class="col">
+    <img src="https://icons.iconarchive.com/icons/custom-icon-design/lovely-weather-2/512/Humidity-icon.png" 
+    width="200px">
+    <div>
+      <p class="humidity">50%</p>
+      <p>Humidity</p>
+    </div>
+    <div class="col">
+    <img src="https://www.pngmart.com/files/3/Wind-Transparent-Background.png"
+    width="200px" >
+    <div>
+      <p class="wind">50 km/h</p>
+      <p>Wind Speed</p>
+    </div>
+  </div>
+</div>
+</div>
+  </div>
+  
+  <script>
+
+    const apiKey  = "92a191df2802e3e3be04e2a8c739be00";
+    const apiUrl = "https://api.openweathermap.org/data/2.5/weather?&units=metric&q=";
+
+   const searchBox = document.querySelector(".search input");
+   const searchBtn = document.querySelector(".search button");
+   const weatherIcon = document.querySelector(".weather-icon");
+
+
+  async function checkWeather(city){
+      const response = await fetch(apiUrl + city + `&appid=${apiKey}`);
+      
+      if(response.status == 404){
+        document.querySelector(".error").style.display = "block";
+        document.querySelector(".weather").style.display = "none";
+      } else{
+        
+      }
+      
+      var data= await response.json();
+
+    
+
+      document.querySelector(".city").innerHTML = data.name;
+      document.querySelector(".temp").innerHTML = Math.round(data.main.temp) + "°c";
+      document.querySelector(".humidity").innerHTML = data.main.humidity + "%";
+      document.querySelector(".wind").innerHTML = data.wind.speed + "km/h";
+    
+    if(data.weather[0].main == "Clouds"){
+    weatherIcon.src = "https://cdn.pixabay.com/photo/2016/09/15/21/10/cloud-1672676_1280.png";
+    }
+    else if(data.weather[0].main == "Clear"){
+    weatherIcon.src = "https://flyclipart.com/thumb2/cloud-cloudy-mostly-partly-sun-sunny-weather-icon-119965.png";
+    }
+    else if(data.weather[0].main == "Rain"){
+    weatherIcon.src = "https://www.freeiconspng.com/thumbs/weather-icon-png/weather-icon-4.png";
+    }
+ 
+    else if(data.weather[0].main == "Snow"){
+    weatherIcon.src = "images/mist.png";
+    }
+     document.querySelector(".weather").style.display = "block";
+
+
+    
+    
+    
+  }
+
+    searchBtn.addEventListener("click", ()=>{
+      checkWeather(searchBox.value);
+    })
+
+  
+  </script>
+</body>
+</html>
